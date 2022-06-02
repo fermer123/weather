@@ -7,9 +7,8 @@ const Page = () => {
   const [location, setLocation] = useState('');
   const api = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=3fc69a436f78882d60a5e06ac53b6cba`;
   const searchLocation = (e) => {
-    const msg = [];
     if (e.key === 'Enter') {
-      axios(api).then((response) => {
+      axios.get(api).then((response) => {
         setWeather(response.data);
       });
       setLocation('');
@@ -40,9 +39,9 @@ const Page = () => {
             ) : null}
           </div>
           <div className={style.description}>
-            {/* {weather.description ? (
+            {weather.description ? (
               <p>{weather.weather[0].description}</p>
-            ) : null} */}
+            ) : null}
           </div>
         </div>
         <div className={style.bottom}>
