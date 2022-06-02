@@ -1,27 +1,21 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import style from './Page.module.scss';
 
 const Page = () => {
   const [weather, setWeather] = useState({});
   const [location, setLocation] = useState('');
-  const api = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=3fc69a436f78882d60a5e06ac53b6cba`;
-  // useEffect(() => {
-  //   const resp = async () => {
-  //     await axios(api);
-  //     setWeather(resp);
-  //   };
-  //   resp();
-  // }, []);
-
+  const api = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=3fc69a436f78882d60a5e06ac53b6cba`;
   const searchLocation = (e) => {
+    const msg = [];
     if (e.key === 'Enter') {
-      axios.get(api).then((response) => {
+      axios(api).then((response) => {
         setWeather(response.data);
       });
       setLocation('');
     }
   };
+
   console.log(weather);
 
   return (
@@ -38,26 +32,40 @@ const Page = () => {
       <div className={style.container}>
         <div className={style.top}>
           <div className={style.location}>
-            <p>{location.name}</p>
+            {weather ? <p>{weather.name}</p> : null}
           </div>
           <div className={style.temp}>
-            <h1>23 °C</h1>
+            {weather.main ? (
+              <h1>{Math.ceil(weather.main.temp / 32)} °C</h1>
+            ) : null}
           </div>
           <div className={style.description}>
-            <p>Clouds</p>
+            {/* {weather.description ? (
+              <p>{weather.weather[0].description}</p>
+            ) : null} */}
           </div>
         </div>
         <div className={style.bottom}>
           <div className={style.feels}>
-            <p className={style.bold}>27 °C</p>
+            {weather.main ? (
+              <p className={style.bold}>
+                {Math.ceil(weather.main.feels_like / 32)} °C
+              </p>
+            ) : null}
+
             <p>Feels like</p>
           </div>
           <div className={style.humidity}>
-            <p className={style.bold}>20%</p>
+            {weather.main ? (
+              <p className={style.bold}>{weather.main.humidity} %</p>
+            ) : null}
+
             <p>Humidity</p>
           </div>
           <div className={style.wind}>
-            <p className={style.bold}> 2 km/h</p>
+            {weather.wind ? (
+              <p className={style.bold}>{weather.wind.speed} m/s</p>
+            ) : null}
             <p>Wind speed</p>
           </div>
         </div>
