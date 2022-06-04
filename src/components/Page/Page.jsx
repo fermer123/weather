@@ -18,8 +18,6 @@ const Page = () => {
     }
   };
 
-  console.log(weather);
-
   return (
     <>
       <div className={style.search}>
